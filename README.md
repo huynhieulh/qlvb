@@ -12,6 +12,7 @@ sudo ./byfn.sh up -n -a
 # Deploy chaincode trong cli
 ./scripts/deployChaincode.sh paper 1
 
+<<<<<<< HEAD
 # Chay client trong thu muc fabcar/javascript bang cach chay cac node dua theo viec anh xa cac ham trong chaincode
 node enrolAdmin.js
 
@@ -32,6 +33,16 @@ node truyVanTotNghiep.js
 # Giang vien sua diem, nhap diem cho sinh vien
 node suaDiem.js
 
+=======
+# Chay client trong thu muc fabcar/javascript bang cach chay cac node
+node enrollAdmin.js
+
+node registerUser.js
+
+node query.js
+
+node invoke.js
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
 
 # Thu muc front end chua giao dien cac trang web
 # server.js chua trong thu muc fabcar/javascript

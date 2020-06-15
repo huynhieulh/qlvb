@@ -1,6 +1,7 @@
 'use strict';
 const { Contract } = require('fabric-contract-api');
 const assert = require('assert')
+<<<<<<< HEAD
 const ClientIdentity = require('fabric-shim').ClientIdentity;
 class QuanLyDiem extends Contract {
 
@@ -19,6 +20,20 @@ class QuanLyDiem extends Contract {
 	}
 
 
+=======
+class QuanLyDiem extends Contract {
+	
+	async getIdentity(ctx) { 
+		/*let identity = null
+		return identity*/
+		const ClientIdentity = require('fabric-shim').ClientIdentity;
+		let cid = new ClientIdentity(ctx)
+		if(cid.assertAttributeValue('firstName','Thao')){
+			throw new Error('Not a valid user')
+		}
+	}
+
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
 	async khoiTao(ctx){
 		const obj_sv = 
 		{
@@ -79,6 +94,7 @@ class QuanLyDiem extends Contract {
 	    const result = await ctx.stub.putState(mssv, Buffer.from(JSON.stringify(sinhvien)));
 	    console.log("them sinh vien thanh cong")
 	}
+<<<<<<< HEAD
 	/*async suaDiem(ctx, mssv, maLopHocPhan,diemmoi){ // giang vien se them diem/hoac sua diem hoc maLopHocPhan cua sinh vien co mssv voi diem tuong ung 
 		// kiem tra giangvien co the sua diem cua "maLopHocPhan" khong
 		// tien hanh sua diem cua sinh vien, va luu ten nguoi sua lai
@@ -95,13 +111,22 @@ class QuanLyDiem extends Contract {
 		// kiem tra giangvien co the sua diem cua "maLopHocPhan" khong
 		// tien hanh sua diem cua sinh vien, va luu ten nguoi sua lai
 		const identity = await getIdentity(ctx)
+=======
+	async suaDiem(ctx, mssv, maLopHocPhan,diemmoi){ // giang vien se them diem/hoac sua diem hoc maLopHocPhan cua sinh vien co mssv voi diem tuong ung 
+		// kiem tra giangvien co the sua diem cua "maLopHocPhan" khong
+		// tien hanh sua diem cua sinh vien, va luu ten nguoi sua lai
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
 		const sv = await ctx.stub.getState(mssv);
 		const svinfo = JSON.parse(sv.toString());
 		// lay ma hoc phan
 		const maNhom = svinfo.hocphan[maLopHocPhan]
 		// sua diem cu thanh diem moi
+<<<<<<< HEAD
 		svinfo.hocphan[maLopHocPhan].diem = diemmoi;
 		svinfo.hocphan[maLopHocPhan].choboi = identity; 
+=======
+		svinfo.hocphan[maLopHocPhan].diem= diemmoi;
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
 		const result = await ctx.stub.putState(mssv, Buffer.from(JSON.stringify(svinfo)))
 		console.log(svinfo)
 	}

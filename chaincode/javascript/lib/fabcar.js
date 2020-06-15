@@ -1,13 +1,18 @@
 'use strict';
 const { Contract } = require('fabric-contract-api');
+<<<<<<< HEAD
 const ClientIdentity = require('fabric-shim').ClientIdentity;
 //const assert = require('assert')
 
+=======
+//const assert = require('assert')
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
 class QuanLyDiem extends Contract {
 	
 	async getIdentity(ctx) { 
 		/*let identity = null
 		return identity*/
+<<<<<<< HEAD
 		let cid = new ClientIdentity(ctx.stub)
 		// if !cid.firstName:
 		// 	throw 
@@ -17,6 +22,13 @@ class QuanLyDiem extends Contract {
 		// }
 		let id = cid.getID()
 		return id
+=======
+		const ClientIdentity = require('fabric-shim').ClientIdentity;
+		let cid = new ClientIdentity(ctx)
+		if(cid.assertAttributeValue('firstName','Thao')){
+			throw new Error('Not a valid user')
+		}
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
 	}
 
 	async khoiTao(ctx){
@@ -80,12 +92,16 @@ class QuanLyDiem extends Contract {
 	async suaDiem(ctx, mssv, maLopHocPhan,diemmoi){ // giang vien se them diem/hoac sua diem hoc maLopHocPhan cua sinh vien co mssv voi diem tuong ung 
 		// kiem tra giangvien co the sua diem cua "maLopHocPhan" khong
 		// tien hanh sua diem cua sinh vien, va luu ten nguoi sua lai
+<<<<<<< HEAD
 		const identity = await this.getIdentity(ctx)
+=======
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
 		const sv = await ctx.stub.getState(mssv);
 		const svinfo = JSON.parse(sv.toString());
 		// lay ma hoc phan
 		const maNhom = svinfo.hocphan[maLopHocPhan]
 		// sua diem cu thanh diem moi
+<<<<<<< HEAD
 		svinfo.hocphan[maLopHocPhan].diem = diemmoi;
 		svinfo.hocphan[maLopHocPhan].choboi = identity; 
 		const result = await ctx.stub.putState(mssv, Buffer.from(JSON.stringify(svinfo)))
@@ -94,6 +110,13 @@ class QuanLyDiem extends Contract {
 
 
     async truyVan(ctx, mssv){ // truy van cac diem cua sinh vien
+=======
+		svinfo.hocphan[maLopHocPhan].diem= diemmoi;
+		const result = await ctx.stub.putState(mssv, Buffer.from(JSON.stringify(svinfo)))
+		console.log(svinfo)
+	}
+         async truyVan(ctx, mssv){ // truy van cac diem cua sinh vien
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
 		const sv = await ctx.stub.getState(mssv)
 		//const svinfo = JSON.parse(sv)
 		//console.info(svinfo)
@@ -104,7 +127,10 @@ class QuanLyDiem extends Contract {
 	
 	async truyVanTotNghiep(ctx, mssv){// xet xem sinh vien co tot nghiep khong 
        const sv = await ctx.stub.getState(mssv)
+<<<<<<< HEAD
        
+=======
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
        const svinfo = JSON.parse(sv.toString())
        let tong = 0
        let tongSoChi = 0

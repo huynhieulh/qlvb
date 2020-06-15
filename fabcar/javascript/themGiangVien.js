@@ -8,7 +8,11 @@ const fs = require('fs');
 const path = require('path');
 
 //exports.submitPaper= async function(mssv, name, year, type) {
+<<<<<<< HEAD
  async function main (maGiangVien, dinhdanh) {
+=======
+exports.themGV =  async function(maGiangVien, dinhdanh) {
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
    // let response = {}
 //  async function main() {
     try {
@@ -48,11 +52,16 @@ const path = require('path');
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR12', 'Dave')
         // await contract.submitTransaction('submitPaper', mssv , name , year , type);
         //  await contract.submitTransaction('submitPaper', "B1609550" , "Thao" , "2020" , "Kha")
+<<<<<<< HEAD
          let result = await contract.submitTransaction('themGiangVien',maGiangVien);
+=======
+         await contract.submitTransaction('themGiangVien',maGiangVien);
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
          console.log('Transaction has been submitted');
 
         // Disconnect from the gateway.
         await gateway.disconnect();
+<<<<<<< HEAD
         //response.msg ='submitPaper Transaction has been submitted'
 	    return "Successful add giangVien "+maGiangVien;
 
@@ -68,5 +77,20 @@ const path = require('path');
 /*let maGiangVien='GV-004-PTTai'
 let dinhdanh='appUser';*/
 module.exports = main;
+=======
+        response.msg ='submitPaper Transaction has been submitted'
+	return response;
+
+    } catch (error) {
+        console.error(`Failed to submit transaction: ${error}`);
+        response.error = error.message;
+       // return response
+        process.exit(1);
+        return response;
+    }
+}
+let maGiangVien='GV-004-PTTai'
+let dinhdanh='appUser';
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
 //main(maGiangVien, dinhdanh);
 

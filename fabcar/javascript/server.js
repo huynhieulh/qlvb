@@ -3,6 +3,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var app = express()
 var port = 3000
+<<<<<<< HEAD
 var enrollAdmin = require('./enrollAdmin.js')
 var registerUser = require('./registerUser.js')
 var themGiangVien = require('./themGiangVien.js')
@@ -13,12 +14,24 @@ var suaDiem = require('./suaDiem.js')
 var truyVanBlock = require('./truyVanBlock.js')
 var truyVanTatCaBlock = require('./truyVanTatCaBlock.js')
 
+=======
+var moduleEnroll = require('./enrollAdmin.js')
+var registerUser = require('./registerUser.js')
+//var moduleInvoke = require('./invoke.js')
+//var moduleQuery = require('./query.js')
+var moduleApprove = require('./approve.js')
+var moduleChangePoint = require('./suaDiem.js')
+var modulequeryGraduate = require('./truyVanTotNghiep.js')
+var moduleThemGV = require('./themGiangVien.js')
+var moduleThemSV = require('./themSinhVien.js')
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
 app.use(express.static('../../frontend'))
+<<<<<<< HEAD
 // Them sinh vien
 app.post('/themSinhVien', async(req, res) => {
    let ten = req.body.ten
@@ -81,6 +94,8 @@ app.get('/truyVanTatCaBlock',async(req, res)=>{
   console.log("response"+JSON.stringify(response))
   res.send(JSON.stringify(response))
 })
+=======
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
 /*app.post('/', (req, res)=> {   
         res.writeHead(200,{"Content-Type" : "text/plain"});
         res.write("MSSV:"+req.body.mssv)
@@ -89,7 +104,11 @@ app.get('/truyVanTatCaBlock',async(req, res)=>{
         res.write("Loai tot nghiep:"+req.body.type)
         ret = s.end()
 })*/
+<<<<<<< HEAD
 /*app.get('/queryPaper', async(req,res) => {
+=======
+app.get('/queryPaper', async(req,res) => {
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
      console.log(req.query.mssv)
      let response = await moduleQuery.queryPaper(req.query.mssv)
      //let papersRecord = JSON.parse(response)
@@ -111,5 +130,28 @@ app.post('/approvePaper', async(req,res) => {
      let response = await moduleApprove.approvePaper(req.body.mssv, approve)
      //let papersRecord = JSON.parse(response)
      res.send(response)
+<<<<<<< HEAD
 })*/
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+=======
+})
+app.get('/themDiem',async(req,res) =>{
+	let response = await moduleChangePoint.changePoint(req.body.mssv,req.body.maLopHocPhan,req.body.diemmoi);
+	res.send(response);
+})
+app.get('/themGiangVien', async(req,res) =>{
+	let respone = await moduleThemGV.themGV(req.body.tengv,req.body.maGiangVien);
+	res.send(response);
+})
+app.get('/truyVanTotNghiep',async(req,res) =>{
+	let response = await modulequeryGraduate.queryGraduate(req.body.mssv,'appUser');
+	res.send(respone);
+})
+app.get('/themSinhVien',async(req,res)=>{
+	let response = await moduleThemSV.themSV(req.body.mssv,req.body.ten,req.cmnd,'appUser');
+	res.send(respone);
+})
+
+
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+>>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11

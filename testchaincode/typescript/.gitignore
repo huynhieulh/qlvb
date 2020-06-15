@@ -1,11 +1,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-<<<<<<< HEAD
-node_modules
-=======
 
->>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
 # Logs
 logs
 *.log
@@ -79,3 +75,7 @@ typings/
 
 # Serverless directories
 .serverless
+
+# Compiled TypeScript files
+dist
+
