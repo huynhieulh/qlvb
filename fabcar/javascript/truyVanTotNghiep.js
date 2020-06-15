@@ -10,11 +10,7 @@ const fs = require('fs');
 
 
 //exports.queryPaper = async function(mssv) 
-<<<<<<< HEAD
-async function main (mssv, dinhdanh){
-=======
 exports.queryGraduate = async function (mssv/*, dinhdanh*/){
->>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
    // let response = {}
     try {
         // load the network configuration
@@ -28,10 +24,7 @@ exports.queryGraduate = async function (mssv/*, dinhdanh*/){
         console.log(`Wallet path: ${walletPath}`);
 
         // Check to see if we've already enrolled the user.
-<<<<<<< HEAD
-=======
 	let dinhdanh='appUser';
->>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
         const identity = await wallet.get(dinhdanh);
         if (!identity) {
             console.log(`An identity for the user "${dinhdanh}" does not exist in the wallet`);
@@ -52,33 +45,16 @@ exports.queryGraduate = async function (mssv/*, dinhdanh*/){
         // Evaluate the specified transaction.
         // queryCar transaction - requires 1 argument, ex: ('queryCar', 'CAR4')
         // queryAllCars transaction - requires no arguments, ex: ('queryAllCars')
-        const result = await contract.evaluateTransaction('truyVanTotNghiep', mssv);
+        const result = await contract.evaluateTransaction('xetTotNghiep', mssv);
         console.log(`Transaction has been evaluated, result is: ${result.toString()}`);
-<<<<<<< HEAD
-        return result
-=======
-       	
 	return result;
->>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
     } catch (error) {
         console.error(`Failed to evaluate transaction: ${error}`);
         //response.error = error.message
        // return response
-<<<<<<< HEAD
-        // process.exit(1);
-        return false
-    }
-}
-/*let dinhdanh ='appUser';
-let mssv = 'B1609548';
-main(mssv,dinhdanh);*/
-module.exports = main;
-=======
         process.exit(1);
     }
 }
 let dinhdanh ='appUser';
 let mssv = 'B1609548';
 //main(mssv,dinhdanh);
->>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
-

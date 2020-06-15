@@ -1,15 +1,20 @@
+
 /*
  * SPDX-License-Identifier: Apache-2.0
  */
 
 'use strict';
 
-const { Wallets } = require('fabric-network');
 const FabricCAServices = require('fabric-ca-client');
 const fs = require('fs');
 const path = require('path');
+const { Gateway, Wallets } = require('fabric-network');
 
-async function main(dinhDanh) {  
+
+
+exports.registerUser = async function (dinhDanh,msgv) {
+   try{  
+	console.log(dinhDanh);
         // load the network configuration
         //const ccpPath = path.resolve(__dirname, '..', '..','test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
         const ccpPath = path.resolve(__dirname, '..', '..','first-network', 'connection-org1.json');
@@ -39,6 +44,17 @@ async function main(dinhDanh) {
             return;
         }
 
+
+        // Create a new gateway for connecting to our peer node.
+        const gateway = new Gateway();
+        await gateway.connect(ccp, { wallet, identity: 'admin', discovery: { enabled: true, asLocalhost: true}});
+
+        // Get the network (channel) our contract is deployed to.
+        const network = await gateway.getNetwork('mychannel');
+
+        // Get the contract from the network.
+        const contract = network.getContract('paper');
+
         // build a user object for authenticating with the CA
         const provider = wallet.getProviderRegistry().getProvider(adminIdentity.type);
         const adminUser = await provider.getUserContext(adminIdentity, 'admin');
@@ -48,7 +64,7 @@ async function main(dinhDanh) {
             affiliation: 'org1.department1',
             enrollmentID: dinhDanh,
             role: 'client',
-	    attrs: [{name: 'firstName', value: 'Thao', ecert: true}]
+	    attrs: [{name: 'firstName', value: msgv, ecert: true}]
         }, adminUser);
         const enrollment = await ca.enroll({
             enrollmentID: dinhDanh,
@@ -64,8 +80,16 @@ async function main(dinhDanh) {
             type: 'X.509',
         };
         await wallet.put(dinhDanh, x509Identity);
-        console.log(`Successfully registered and enrolled admin user "${dinhDanh}" and imported it into the wallet`);
+	console.log(`Successfully registered "${dinhDanh}" user and importedit into the wallet\n Certificate: ${x509Identity.credentials.certificate}`);
+        const result = `Successfully registered "${dinhDanh}" user and imported it into the wallet\n Certificate: ${x509Identity.credentials.certificate}`;
+	await gateway.disconnect();
+	return result;
+   }catch(error){
+	console.error(`Failed:${error}`);
+	//process.exit(1);
+	}
 }
 
-let dinhDanh = 'appUser';
-main(dinhDanh);
+//let dinhDanh = 'appUser';
+
+//main(dinhDanh);

@@ -8,11 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 //exports.submitPaper= async function(mssv, name, year, type) {
-<<<<<<< HEAD
-async function main (mssv, ten, cmnd, dinhdanh) {
-=======
 exports.themSV =  async function (mssv, ten, cmnd) {
->>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
    // let response = {}
 //  async function main() {
     try {
@@ -26,13 +22,9 @@ exports.themSV =  async function (mssv, ten, cmnd) {
         const wallet = await Wallets.newFileSystemWallet(walletPath);
         console.log(`Wallet path: ${walletPath}`);
 
-<<<<<<< HEAD
-        // Check to see if we've already enrolled the user.
-=======
 
         // Check to see if we've already enrolled the user.
 	let dinhdanh='appUser';
->>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
         const identity = await wallet.get(dinhdanh);
         if (!identity) {
             console.log(`An identity for the user ${dinhdanh} does not exist in the wallet`);
@@ -63,34 +55,15 @@ exports.themSV =  async function (mssv, ten, cmnd) {
 
         // Disconnect from the gateway.
         await gateway.disconnect();
-<<<<<<< HEAD
-        //response.msg ='submitPaper Transaction has been submitted'
-		return 'Successfully added student ' + mssv;
-    } catch (error) {
-        console.error(`Failed to submit transaction: ${error}`);
-        //response.error = error.message
-       // return response
-        //process.exit(1);
-        //return response;
-        return false;
-    }
-}
-/*let mssv='B1609550'
-let ten='Lisa'
-let cmnd='01234'
-let dinhdanh='appUser';
-main(mssv, ten, cmnd, dinhdanh);*/
-module.exports = main;
-=======
-        response.msg ='submitPaper Transaction has been submitted'
+        let response ='submitPaper Transaction has been submitted'
 	return response;
 
     } catch (error) {
         console.error(`Failed to submit transaction: ${error}`);
-        response.error = error.message
-       // return response
+        let response = error.message
+        return response
         process.exit(1);
-        return response;
+        //return response.error;
     }
 }
 let mssv='B1609550'
@@ -98,5 +71,3 @@ let ten='Lisa'
 let cmnd='01234'
 let dinhdanh='appUser';
 //main(mssv, ten, cmnd, dinhdanh);
->>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
-

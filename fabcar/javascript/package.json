@@ -16,26 +16,15 @@
     "license": "Apache-2.0",
     "dependencies": {
         "fabric-ca-client": "beta",
-<<<<<<< HEAD
-        "fabric-network": "^2.0.0-beta.4",
-        "marshal": "^0.5.2"
-=======
-        "fabric-network": "beta",
-        "sqlite3": "^4.2.0",
-        "update": "^0.7.4"
->>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
+        "fabric-network": "beta"
     },
     "devDependencies": {
         "chai": "^4.2.0",
         "eslint": "^5.9.0",
-<<<<<<< HEAD
         "mocha": "^5.2.0",
-=======
-        "mocha": "^7.2.0",
->>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
         "nyc": "^14.1.1",
         "sinon": "^7.1.1",
-        "sinon-chai": "^3.3.0"
+        "sinon-chai": "^3.5.0"
     },
     "nyc": {
         "exclude": [

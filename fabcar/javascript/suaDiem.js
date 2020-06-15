@@ -8,11 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 //exports.submitPaper= async function(mssv, name, year, type) {
-<<<<<<< HEAD
- async function main (mssv,maLopHocPhan, diemmoi, dinhdanh) {
-=======
-exports.changePoint= async function(mssv,maLopHocPhan, diemmoi) {
->>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
+exports.changePoint= async function(mssv,ki,maLopHocPhan,diemmoi,dinhdanh) {
    // let response = {}
 //  async function main() {
     try {
@@ -27,10 +23,6 @@ exports.changePoint= async function(mssv,maLopHocPhan, diemmoi) {
         console.log(`Wallet path: ${walletPath}`);
 
         // Check to see if we've already enrolled the user.
-<<<<<<< HEAD
-=======
-	let dinhdanh='appUser';
->>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
         const identity = await wallet.get(dinhdanh);
         if (!identity) {
             console.log(`An identity for the user ${dinhdanh} does not exist in the wallet`);
@@ -56,32 +48,12 @@ exports.changePoint= async function(mssv,maLopHocPhan, diemmoi) {
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR12', 'Dave')
         // await contract.submitTransaction('submitPaper', mssv , name , year , type);
         //  await contract.submitTransaction('submitPaper', "B1609550" , "Thao" , "2020" , "Kha")
-         await contract.submitTransaction('suaDiem',mssv, maLopHocPhan, diemmoi);
+         await contract.submitTransaction('choDiem',mssv,ki, maLopHocPhan, diemmoi);
          console.log('Transaction has been submitted');
 
         // Disconnect from the gateway.
         await gateway.disconnect();
-<<<<<<< HEAD
-        //response.msg ='submitPaper Transaction has been submitted'
-	    return "Sua diem oke"+diemmoi
-
-    } catch (error) {
-        console.error(`Failed to submit transaction: ${error}`);
-        //response.error = error.message
-       // return response
-        //process.exit(1);
-        return false;
-        //return response;
-    }
-}
-/*let mssv='B1609548';
-let maLopHocPhan='CT173-01'
-let diemmoi='8'
-let dinhdanh='appUser';
-main(mssv,maLopHocPhan, diemmoi, dinhdanh);*/
-module.exports = main;
-=======
-        response ='submitPaper Transaction has been submitted';
+        response ='Nhap diem thanh cong! ';
 	return response;
 
     } catch (error) {
@@ -97,4 +69,3 @@ let maLopHocPhan='CT173-01'
 let diemmoi='8'
 let dinhdanh='appUser';
 //main(mssv,maLopHocPhan, diemmoi, dinhdanh);
->>>>>>> b5b34d3c606f4b5550d66e3d7807f85dbd69fc11
