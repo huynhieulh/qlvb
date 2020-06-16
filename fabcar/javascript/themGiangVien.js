@@ -1,21 +1,28 @@
+
 /*
  * SPDX-License-Identifier: Apache-2.0
  */
-'use strict';
 
-const { Gateway, Wallets } = require('fabric-network');
+'use strict';
+const nodeRsa = require("node-rsa");
+const FabricCAServices = require('fabric-ca-client');
 const fs = require('fs');
 const path = require('path');
+const { Gateway, Wallets } = require('fabric-network');
 
-//exports.submitPaper= async function(mssv, name, year, type) {
-exports.themGV =  async function(maGiangVien, dinhdanh) {
-   // let response = {}
-//  async function main() {
-    try {
+
+
+exports.registerUser = async function (dinhDanh,msgv) {
+   try{  
+	console.log(dinhDanh);
         // load the network configuration
-       // const ccpPath = path.resolve(__dirname, '..', '..','test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
+        //const ccpPath = path.resolve(__dirname, '..', '..','test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
         const ccpPath = path.resolve(__dirname, '..', '..','first-network', 'connection-org1.json');
-        let ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
+        const ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
+
+        // Create a new CA client for interacting with the CA.
+        const caURL = ccp.certificateAuthorities['ca.org1.example.com'].url;
+        const ca = new FabricCAServices(caURL);
 
         // Create a new file system based wallet for managing identities.
         const walletPath = path.join(process.cwd(), 'wallet');
@@ -23,47 +30,80 @@ exports.themGV =  async function(maGiangVien, dinhdanh) {
         console.log(`Wallet path: ${walletPath}`);
 
         // Check to see if we've already enrolled the user.
-        const identity = await wallet.get(dinhdanh);
-        if (!identity) {
-            console.log(`An identity for the user ${dinhdanh} does not exist in the wallet`);
-            console.log('Run the registerUser.js application before retrying');
+        const userIdentity = await wallet.get(dinhDanh);
+        if (userIdentity) {
+            console.log(`An identity for the user "${dinhDanh}" already exists in the wallet`);
             return;
         }
 
+        // Check to see if we've already enrolled the admin user.
+        const adminIdentity = await wallet.get('admin');
+        if (!adminIdentity) {
+            console.log('An identity for the admin user "admin" does not exist in the wallet');
+            console.log('Run the enrollAdmin.js application before retrying');
+            return;
+        }
+
+
         // Create a new gateway for connecting to our peer node.
         const gateway = new Gateway();
-        await gateway.connect(ccp, { wallet, identity: dinhdanh, discovery: { enabled: true, asLocalhost: true } });
+        await gateway.connect(ccp, { wallet, identity: 'admin', discovery: { enabled: true, asLocalhost: true}});
 
         // Get the network (channel) our contract is deployed to.
         const network = await gateway.getNetwork('mychannel');
 
-
-
-
         // Get the contract from the network.
         const contract = network.getContract('paper');
 
-        // Submit the specified transaction.
-        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR12', 'Dave')
-        // await contract.submitTransaction('submitPaper', mssv , name , year , type);
-        //  await contract.submitTransaction('submitPaper', "B1609550" , "Thao" , "2020" , "Kha")
-         await contract.submitTransaction('themGiangVien',maGiangVien);
-         console.log('Transaction has been submitted');
+        // build a user object for authenticating with the CA
+        const provider = wallet.getProviderRegistry().getProvider(adminIdentity.type);
+        const adminUser = await provider.getUserContext(adminIdentity, 'admin');
 
-        // Disconnect from the gateway.
-        await gateway.disconnect();
-        response.msg ='submitPaper Transaction has been submitted'
-	return response;
+        // Register the user, enroll the user, and import the new identity into the wallet.
 
-    } catch (error) {
-        console.error(`Failed to submit transaction: ${error}`);
-        response.error = error.message;
-       // return response
-        process.exit(1);
-        return response;
-    }
+	
+	//const key = new nodeRsa({b: 512});
+	//var pub_key = key.exportKey('public');
+	//var pri_key = key.exportKey('private');
+	//const key_pri = new nodeRsa(pri_key);
+	//const key_pub = new nodeRsa(pub_key);
+	//var enc =  key_pri.encryptPrivate(text,'base64');
+	//console.log(enc);
+	//var dec =  key_pub.decryptPublic(enc,'utf8');
+	//console.log(dec);
+
+
+        const secret = await ca.register({
+            affiliation: 'org1.department1',
+            enrollmentID: dinhDanh,
+            role: 'client',
+	    attrs: [{name: 'firstName', value: msgv, ecert: true}]
+        }, adminUser);
+        const enrollment = await ca.enroll({
+            enrollmentID: dinhDanh,
+            enrollmentSecret: secret,
+            attrs_reqs: [{name: 'firstName', optional: false}]
+        });
+        const x509Identity = {
+            credentials: {
+                certificate: enrollment.certificate,
+		rootCertificate : enrollment.rootCertificate,
+                privateKey: enrollment.key.toBytes(),
+            },
+            mspId: 'Org1MSP',
+            type: 'X.509',
+        };
+        await wallet.put(dinhDanh, x509Identity);
+	console.log(`Successfully registered "${dinhDanh}" user and importedit into the wallet\n Certificate: ${x509Identity.credentials.certificate}`);
+        const result = `Successfully registered "${dinhDanh}" user and imported it into the wallet <br> Certificate: ${x509Identity.credentials.certificate}`;
+	await gateway.disconnect();
+	return result;
+   }catch(error){
+	console.error(`Failed:${error}`);
+	//process.exit(1);
+	}
 }
-let maGiangVien='GV-004-PTTai'
-let dinhdanh='appUser';
-//main(maGiangVien, dinhdanh);
+
+//let dinhDanh = 'appUser';
+
+//main(dinhDanh);

@@ -1,4 +1,5 @@
 var express = require('express')
+var nodeRSA = require('node-rsa')
 var bodyParser = require('body-parser')
 var app = express()
 var port = 3000
@@ -9,7 +10,7 @@ var registerUser = require('./registerUser.js')
 var moduleApprove = require('./approve.js')
 var moduleChangePoint = require('./suaDiem.js')
 var modulequeryGraduate = require('./truyVanTotNghiep.js')
-var moduleThemGV = require('./registerUser1.js')
+var moduleThemGV = require('./themGiangVien.js')
 var moduleThemSV = require('./themSinhVien.js')
 var moduleTruyVan = require('./truyVan.js')
 app.use(bodyParser.json());       // to support JSON-encoded bodies
@@ -83,6 +84,15 @@ app.post('/truyVan',async(req,res)=>{
   let response = await moduleTruyVan.truyVan(mssv,'appUser');
   res.send(response);
   console.log(response)
+})
+app.post('/getKey',async(req,res)=>{
+   	var key = new nodeRSA({b:512});
+	var pub_key = key.exportKey('public');
+	var pri_key = key.exportKey('private');
+	res.write(pri_key+"\n\n");
+	res.write(pub_key);
+	res.end();
+
 })
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
