@@ -48,13 +48,20 @@ exports.changePoint= async function(mssv,ki,maLopHocPhan,diemmoi,dinhdanh, signa
         // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR12', 'Dave')
         // await contract.submitTransaction('submitPaper', mssv , name , year , type);
         //  await contract.submitTransaction('submitPaper', "B1609550" , "Thao" , "2020" , "Kha")
-         await contract.submitTransaction('choDiem',mssv,ki, maLopHocPhan, diemmoi,dinhdanh, signature );
-         console.log('Transaction has been submitted');
+	const data = mssv+ki+maLopHocPhan+diemmoi+dinhdanh
+	if(moduleValid.validate(dinhdanh, data, signature)== true){
+		 await contract.submitTransaction('choDiem',mssv,ki, maLopHocPhan, diemmoi,dinhdanh, signature );
+		 console.log('Transaction has been submitted');
 
-        // Disconnect from the gateway.
-        await gateway.disconnect();
-        response ='Nhap diem thanh cong! ';
-	return response;
+		// Disconnect from the gateway.
+		await gateway.disconnect();
+		response ='Nhap diem thanh cong! ';
+		return response;
+	}else{
+		await gateway.disconnect();
+		response ='Ban da nhap sai khoa rieng! ';
+		return response;
+	}
 
     } catch (error) {
         console.error(`Failed to submit transaction: ${error}`);
