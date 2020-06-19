@@ -1,6 +1,8 @@
 var express = require('express')
-var nodeRSA = require('node-rsa')
 var bodyParser = require('body-parser')
+const { KJUR, KEYUTIL } = require('jsrsasign');
+const CryptoJS = require('crypto-js');
+
 var app = express()
 var port = 3000
 var moduleEnroll = require('./enrollAdmin.js')
@@ -51,12 +53,22 @@ app.post('/approvePaper', async(req,res) => {
      res.send(response)
 })
 app.post('/themDiem',async(req,res) =>{
-  let mssv = req.body.mssv
-  let ki = req.body.hocky
-  let ma = req.body.maLopHocPhan
-  let diem = req.body.diemmoi
-  let dinhdanh = req.body.dinhdanh
-	let response = await moduleChangePoint.changePoint(mssv,ki,ma,diem,dinhdanh);
+	let mssv = req.body.mssv
+	let ki = req.body.hocky
+	let ma = req.body.maLopHocPhan
+	let diem = req.body.diemmoi
+	let dinhdanh = req.body.dinhdanh
+	let pk = req.body.privateKey
+	let data = mssv+ki+ma+diem+dinhdanh
+	var hashToAction = CryptoJS.SHA256(data).toString();
+	//console.log("Hash of the file: " + hashToAction);
+	var sig = new KJUR.crypto.Signature({"alg": "SHA256withECDSA"});
+	sig.init(pk, "");
+	sig.updateHex(hashToAction);
+	var sigValueHex = sig.sign();
+	var sigValueBase64 = new Buffer.from(sigValueHex, 'hex').toString('base64');
+	console.log("Signature: " + sigValueBase64); 
+	let response = await moduleChangePoint.changePoint(mssv,ki,ma,diem,dinhdanh,sigValueBase64);
 	res.send(response);
 })
 app.post('/themGiangVien', async(req,res) =>{
@@ -85,14 +97,6 @@ app.post('/truyVan',async(req,res)=>{
   res.send(response);
   console.log(response)
 })
-app.post('/getKey',async(req,res)=>{
-   	var key = new nodeRSA({b:512});
-	var pub_key = key.exportKey('public');
-	var pri_key = key.exportKey('private');
-	res.write(pri_key+"\n\n");
-	res.write(pub_key);
-	res.end();
 
-})
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
