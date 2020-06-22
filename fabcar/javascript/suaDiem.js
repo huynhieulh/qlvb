@@ -7,13 +7,10 @@ const { Gateway, Wallets } = require('fabric-network');
 const fs = require('fs');
 const path = require('path');
 var moduleValid = require('./validate.js');
-//exports.submitPaper= async function(mssv, name, year, type) {
+
 exports.changePoint= async function(mssv,ki,maLopHocPhan,diemmoi,dinhdanh, signature) {
-   // let response = {}
 //  async function main() {
     try {
-        // load the network configuration
-       // const ccpPath = path.resolve(__dirname, '..', '..','test-network', 'organizations', 'peerOrganizations', 'org1.example.com', 'connection-org1.json');
         const ccpPath = path.resolve(__dirname, '..', '..','first-network', 'connection-org1.json');
         let ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 
@@ -43,14 +40,10 @@ exports.changePoint= async function(mssv,ki,maLopHocPhan,diemmoi,dinhdanh, signa
         // Get the contract from the network.
         const contract = network.getContract('paper');
 
-        // Submit the specified transaction.
-        // createCar transaction - requires 5 argument, ex: ('createCar', 'CAR12', 'Honda', 'Accord', 'Black', 'Tom')
-        // changeCarOwner transaction - requires 2 args , ex: ('changeCarOwner', 'CAR12', 'Dave')
-        // await contract.submitTransaction('submitPaper', mssv , name , year , type);
-        //  await contract.submitTransaction('submitPaper', "B1609550" , "Thao" , "2020" , "Kha")
 	const data = mssv+ki+maLopHocPhan+diemmoi+dinhdanh
-	if(moduleValid.validate(dinhdanh, data, signature)== true){
-		 await contract.submitTransaction('choDiem',mssv,ki, maLopHocPhan, diemmoi,dinhdanh, signature );
+	if(1==1){
+	//if(moduleValid.validate(dinhdanh, data, signature) == true){
+		 //await contract.submitTransaction('choDiem',mssv,ki, maLopHocPhan, diemmoi,dinhdanh, signature );
 		 console.log('Transaction has been submitted');
 
 		// Disconnect from the gateway.
@@ -75,4 +68,5 @@ let mssv='B1609548';
 let maLopHocPhan='CT173-01'
 let diemmoi='8'
 let dinhdanh='appUser';
-//main(mssv,maLopHocPhan, diemmoi, dinhdanh);
+let signature ='MEQCIDMKt/YBGtgplYU73XvSDoiXfarBSoTAiI/WExxqN5GTAiA/bwcmMyID4gMzvNjuTddpDHIDVP2nvBa2+qVf0a0Lxg==';
+//main(mssv,'1',maLopHocPhan, diemmoi, dinhdanh, signature);

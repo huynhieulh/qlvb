@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <title> Add Student </title>
+    <title> Them Diem </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -44,7 +44,8 @@ function queryPaper(){
     var dinhdanh = document.forms["myForm"]["dinhdanh"].value;
     var maHP = document.forms["myForm"]["maLopHocPhan"].value;
     var diem = document.forms["myForm"]["diemmoi"].value;
-    xhttp.open("GET","./themDiem?mssv="+mssv+"&hocky="+hocky+"&maLopHocPhan="+maHP+"&diemmoi="+diem+"&dinhdanh="+dinhdanh, true);
+    var privateKey = document.forms["myForm"]["pk"].value;
+    xhttp.open("GET","./themDiem?mssv="+mssv+"&hocky="+hocky+"&maLopHocPhan="+maHP+"&diemmoi="+diem+"&dinhdanh="+dinhdanh+"&privateKey="+privateKey, true);
     xhttp.send();
 }
 </script>
@@ -108,6 +109,12 @@ function queryPaper(){
             <td><label for="privKey">Dinh Danh</label></td>
             <td><input class="form-control" type="text" id="dinhdanh" name="dinhdanh" placeholder="Ma so GV" required></td>
         
+        </tr>
+	<tr>
+            
+                <td><label for="pk">Private Key</label></td>
+                <td><input class="form-control" type="text" id="pk" name="pk" required></td>
+           
         </tr>
 	<tr>
 
