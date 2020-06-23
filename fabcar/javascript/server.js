@@ -15,6 +15,9 @@ var modulequeryGraduate = require('./truyVanTotNghiep.js')
 var moduleThemGV = require('./themGiangVien.js')
 var moduleThemSV = require('./themSinhVien.js')
 var moduleTruyVan = require('./truyVan.js')
+
+var moduleCreateSign = require('./genarate.js')
+
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
@@ -61,16 +64,9 @@ app.post('/themDiem',async(req,res) =>{
 	let pk = req.body.privateKey
 	console.log(pk);
 	let data = mssv+ki+ma+diem+dinhdanh
-	//var hashToAction = CryptoJS.SHA256(data).toString();
-	//console.log("Hash of the file: " + hashToAction);
-	//var sig = new KJUR.crypto.Signature({"alg": "SHA256withECDSA"});
-	//sig.init(pk, "");
-	//sig.updateHex(hashToAction);
-	//var sigValueHex = sig.sign();
-	//var sigValueBase64 = new Buffer.from(sigValueHex, 'hex').toString('base64');
-	//console.log("Signature: " + sigValueBase64); 
-	//let response = await moduleChangePoint.changePoint(mssv,ki,ma,diem,dinhdanh,sigValueBase64);
-	res.send('a');
+	var sigValueBase64 = moduleCreateSign.taoChuKy(data,pk);
+	let response = await moduleChangePoint.changePoint(mssv,ki,ma,diem,dinhdanh,sigValueBase64);
+	res.send(reponse);
 })
 app.post('/themGiangVien', async(req,res) =>{
 	let dinhdanh = req.body.dinhdanh

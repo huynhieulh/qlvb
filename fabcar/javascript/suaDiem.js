@@ -41,9 +41,8 @@ exports.changePoint= async function(mssv,ki,maLopHocPhan,diemmoi,dinhdanh, signa
         const contract = network.getContract('paper');
 
 	const data = mssv+ki+maLopHocPhan+diemmoi+dinhdanh
-	if(1==1){
-	//if(moduleValid.validate(dinhdanh, data, signature) == true){
-		 //await contract.submitTransaction('choDiem',mssv,ki, maLopHocPhan, diemmoi,dinhdanh, signature );
+	if(moduleValid.validate(dinhdanh, data, signature) == true){
+		 await contract.submitTransaction('choDiem',mssv,ki, maLopHocPhan, diemmoi,dinhdanh, signature );
 		 console.log('Transaction has been submitted');
 
 		// Disconnect from the gateway.

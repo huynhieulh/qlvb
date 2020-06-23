@@ -7,7 +7,7 @@ const path = require('path');
 const { KJUR, KEYUTIL } = require('jsrsasign');
 const CryptoJS = require('crypto-js');
 //async function main (dinhDanh,dulieu,pk){
-exports.taoChuKy= async function(dinhDanh,dulieu,pk) {
+exports.taoChuKy= async function(dulieu,pk) {
     try {
         // calculate Hash from the specified file
         //const fileLoaded = fs.readFileSync(filename, 'utf8');
@@ -22,11 +22,11 @@ exports.taoChuKy= async function(dinhDanh,dulieu,pk) {
         sig.updateHex(hashToAction);
         var sigValueHex = sig.sign();
         var sigValueBase64 = new Buffer.from(sigValueHex, 'hex').toString('base64');
-        //console.log("Signature: " + sigValueBase64);
+        console.log("Signature: " + sigValueBase64);
 	
 	return sigValueBase64;
     } catch (error) {
-        console.error(`Failed to submit transaction: ${error}`);
+        console.error(`Failed to create Signature: ${error}`);
         process.exit(1);
     }
 }

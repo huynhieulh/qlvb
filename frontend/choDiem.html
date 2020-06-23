@@ -2,12 +2,54 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <title> Cho Diem </title>
+    <title> Them Diem </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
-
+    <script>
+<script>
+function validateForm(){ 
+   var mssv = document.forms["myForm"]["mssv"].value;
+   if(mssv == ""){
+     alert("MSSV phải được điền!");
+     return false;
+   }
+   var key = document.forms["myForm"]["privkey"].value;
+   if(key == ""){
+     alert("Khóa phải được điền!");
+     return false;
+   }
+   var maHP = document.forms["myForm"]["maLopHocPhan"].value;
+   if(maHP == ""){
+     alert("Mã học phần phải được điền!");
+     return false;
+   }
+   var diem = document.forms["myForm"]["diemmoi"].value;
+   if(diem == ""){
+     alert("Điểm phải được điền!");
+     return false;
+   }
+}
+function queryPaper(){
+	var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+        if(this.readyState ==4 && this.status ==200){
+         var result =JSON.parse(xhttp.responseText);
+       	 console.log(result)
+      }
+    };
+    var mssv = document.forms["myForm"]["mssv"].value;
+    var hocky = document.forms["myForm"]["hocky"].value;
+    var privateKey = document.forms["myForm"]["privateKey"].value;
+    var dinhdanh = document.forms["myForm"]["dinhdanh"].value;
+    var maHP = document.forms["myForm"]["maLopHocPhan"].value;
+    var diem = document.forms["myForm"]["diemmoi"].value;
+    
+    xhttp.open("GET","./themDiem?mssv="+mssv+"&hocky="+hocky+"&maLopHocPhan="+maHP+"&diemmoi="+diem+"&dinhdanh="+dinhdanh+"&privateKey="+privateKey, true);
+    xhttp.send();
+}
+</script>
 <style type="text/css">
       header{
         background-color: lightgray;
@@ -61,18 +103,31 @@
 
 <body>
     <div class="form-group">
-    <form method="POST" action="/choDiem" name="choDiemForm">
+    <form method="POST" action="/themDiem" name="myForm">
         <table class="table">
+          <tr>
+            
+            <td><label for="dinhdanh">Dinh Danh</label></td>
+            <td><input class="form-control" type="text" id="dinhdanh" name="dinhdanh" placeholder="Ma so GV" required></td>
+        
+        </tr>
+	<tr>
+            
+                <td><label for="privateKey">Private Key</label></td>
+                <td><input class="form-control" type="text" id="privateKey" name="privateKey" required></td>
+           
+        </tr>
+	<tr>
+
+                <td><label for="hocky">Hoc Ky</label></td>
+                <td><input class="form-control" type="text" id="hocky" name="hocky" placeholder="Hoc ky" required></td>
+
+            </tr>
+
             <tr>
             
                 <td><label for="mssv">Mã số Sinh Viên</label></td>
                 <td><input class="form-control" type="text" id="mssv" name="mssv" placeholder="B1609523" required></td>
-            
-            </tr>
-             <tr>
-            
-                <td><label for="ki">Học kì </label></td>
-                <td><input class="form-control" type="text" id="ki" name="ki" placeholder="hocki1nam1" required></td>
             
             </tr>
 
@@ -80,17 +135,17 @@
             
                 <td><label for="maLopHocPhan">Mã học phần</label></td>
                 <td><input class="form-control" type="text" id="maLopHocPhan" name="maLopHocPhan" placeholder="CT222" required></td>
-
+           
              </tr>
              <tr>
-
+            
                 <td><label for="diemmoi">Điểm</label></td>
                 <td><input class="form-control" type="text" id="diemmoi" name="diemmoi" placeholder="9" required></td>
            
              </tr>
              <tr>
                  <td></td>
-                <td><button name="submitScore" value="submitScore" class="btn btn-primary">Chấm </button></td>
+                <td><button name="submitScore" value="submitScore" class="btn btn-primary" onclick=queryPaper()>Submit</button></td>
              </tr>
         </table>
     </form>
@@ -99,4 +154,3 @@
 </body>
 
 </html>
-
