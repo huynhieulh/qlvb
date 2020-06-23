@@ -59,17 +59,18 @@ app.post('/themDiem',async(req,res) =>{
 	let diem = req.body.diemmoi
 	let dinhdanh = req.body.dinhdanh
 	let pk = req.body.privateKey
+	console.log(pk);
 	let data = mssv+ki+ma+diem+dinhdanh
-	var hashToAction = CryptoJS.SHA256(data).toString();
+	//var hashToAction = CryptoJS.SHA256(data).toString();
 	//console.log("Hash of the file: " + hashToAction);
-	var sig = new KJUR.crypto.Signature({"alg": "SHA256withECDSA"});
-	sig.init(pk, "");
-	sig.updateHex(hashToAction);
-	var sigValueHex = sig.sign();
-	var sigValueBase64 = new Buffer.from(sigValueHex, 'hex').toString('base64');
-	console.log("Signature: " + sigValueBase64); 
-	let response = await moduleChangePoint.changePoint(mssv,ki,ma,diem,dinhdanh,sigValueBase64);
-	res.send(response);
+	//var sig = new KJUR.crypto.Signature({"alg": "SHA256withECDSA"});
+	//sig.init(pk, "");
+	//sig.updateHex(hashToAction);
+	//var sigValueHex = sig.sign();
+	//var sigValueBase64 = new Buffer.from(sigValueHex, 'hex').toString('base64');
+	//console.log("Signature: " + sigValueBase64); 
+	//let response = await moduleChangePoint.changePoint(mssv,ki,ma,diem,dinhdanh,sigValueBase64);
+	res.send('a');
 })
 app.post('/themGiangVien', async(req,res) =>{
 	let dinhdanh = req.body.dinhdanh
